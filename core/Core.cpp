@@ -6,11 +6,11 @@
 
 using namespace std;
 
-Core::Core(std::string file_path) {
+Core::Core(string file_path) {
     this->Core::file_path = move(file_path);
 }
 
-std::vector<std::string> Core::data_for_file() {
+vector<string> Core::data_for_file() {
     vector<string> data_is_file;
 
     fstream path_file;
