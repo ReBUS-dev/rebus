@@ -7,9 +7,9 @@
 
 namespace global_name {
     std::string PATH_CONF = "../config/path_config.conf";
-};
+}
 
-void get_files(std::string one_path);
+void get_files(const std::string& one_path);
 
 Core *core_object;
 
@@ -33,13 +33,13 @@ void get_files_for_patch(std::string path_config_backup) {
     std::list<std::string> file_in_dir = core_object->scan_dir(path[0]);
 }
 
-void get_files_of_current_dir(std::string current_dir) {
+void get_files_of_current_dir(const std::string& current_dir) {
     core_object = new Core(global_name::PATH_CONF);
 
-    std::list<std::string> file_in_dir = core_object->scan_dir(current_dir);
+    std::list<std::string> file_in_dir = core_object->scan_dir(std::move(current_dir));
 }
 
-void get_files(std::string one_path) {
+void get_files(const std::string& one_path) {
     if (one_path.empty()) {
         get_files_for_patch(global_name::PATH_CONF);
     } else {

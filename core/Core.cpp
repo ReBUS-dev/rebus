@@ -28,7 +28,7 @@ vector<string> Core::data_for_file() {
     return data_is_file;
 }
 
-list<string> Core::scan_dir(string path) {
+list<string> Core::scan_dir(const string& path) {
     list<string> file_for_path;
 
     for (const auto & path_file : filesystem::directory_iterator(path)) {

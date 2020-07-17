@@ -19,7 +19,7 @@ public:
     explicit Core(std::string file_path);
 
     std::vector<std::string> data_for_file();
-    std::list<std::string> scan_dir(std::string path);
+    std::list<std::string> scan_dir(const std::string& path);
 };
 
 #endif
