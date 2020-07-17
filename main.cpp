@@ -1,7 +1,6 @@
 #include <utility>
 #include <vector>
 #include <list>
-#include <unistd.h>
 
 #include "core/header/Core.h"
 
