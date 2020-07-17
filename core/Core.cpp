@@ -22,9 +22,18 @@ vector<string> Core::data_for_file() {
         while (getline(path_file, path)) {
             data_is_file.push_back(path);
         }
-
         path_file.close();
     }
 
     return data_is_file;
+}
+
+list<string> Core::scan_dir(string path) {
+    list<string> file_for_path;
+
+    for (const auto & path_file : filesystem::directory_iterator(path)) {
+        file_for_path.push_front(path_file.path());
+    }
+
+    return file_for_path;
 }
