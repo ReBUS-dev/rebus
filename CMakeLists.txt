@@ -3,4 +3,4 @@ project(RebusDevBackup)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(RebusDevBackup main.cpp core/Core.cpp core/header/Core.h)
+add_executable(RebusDevBackup main.cpp core/Core.cpp core/header/Core.h core/global_value.cpp)

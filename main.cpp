@@ -1,12 +1,7 @@
 #include <utility>
 #include <vector>
 #include <list>
-
 #include "core/header/Core.h"
-
-namespace global_name {
-    std::string PATH_CONF = "../config/path_config.conf";
-}
 
 void get_files(const std::string& one_path);
 
@@ -29,19 +24,19 @@ void get_files_for_patch(std::string path_config_backup) {
 
     std::vector<std::string> path = core_object->data_for_file();
 
-    std::list<std::string> file_in_dir = core_object->scan_dir(path[0]);
+    std::vector<std::string> file_in_dir = core_object->scan_dir(path[0]);
 }
 
-void get_files_of_current_dir(const std::string& current_dir) {
-    core_object = new Core(global_name::PATH_CONF);
+void get_files_of_key_dir(const std::string& current_dir) {
+    core_object = new Core(PATH_CONF);
 
-    std::list<std::string> file_in_dir = core_object->scan_dir(std::move(current_dir));
+    std::vector<std::string> file_in_dir = core_object->scan_dir(current_dir);
 }
 
 void get_files(const std::string& one_path) {
     if (one_path.empty()) {
-        get_files_for_patch(global_name::PATH_CONF);
+        get_files_for_patch(PATH_CONF);
     } else {
-        get_files_of_current_dir(one_path);
+        get_files_of_key_dir(one_path);
     }
 }
