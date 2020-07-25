@@ -16,16 +16,15 @@
 #define REBUSDEVBACKUP_CORE_H
 
 class WorkArchive : WorkFile {
-private:
-    std::string file_path;
 
 public:
     explicit WorkArchive(std::string file_path);
-    std::vector<std::string> data_for_file();
     void create_archiv_proccess(std::vector<std::string>);
 
     void create_archive(std::vector<std::string> path_name);
     int unpack_archiv(std::string archive_filename);
+
+    std::string file_path;
 };
 
 #endif

@@ -34,9 +34,9 @@ int main(int argc, char **argv) {
 void get_files_for_patch(std::string path_config_backup) {
     archive_work = new WorkArchive(std::move(path_config_backup));
 
-    std::vector<std::string> path = archive_work->data_for_file();
+    std::vector<std::string> path = file_work->data_for_file(archive_work->file_path);
 
-    std::vector<std::string> file_in_dir = file_work->scan_dir(path[0]);
+    std::vector<std::string> file_in_dir = file_work->scan_dir(path);
 
     archive_work->create_archiv_proccess(file_in_dir);
 }
@@ -44,7 +44,7 @@ void get_files_for_patch(std::string path_config_backup) {
 void get_files_of_key_dir(const std::string& current_dir) {
     archive_work = new WorkArchive(PATH_CONF);
 
-    std::vector<std::string> file_in_dir = file_work->scan_dir(current_dir);
+    std::vector<std::string> file_in_dir = file_work->working_once_dir(current_dir);
 
     archive_work->create_archiv_proccess(file_in_dir);
 }

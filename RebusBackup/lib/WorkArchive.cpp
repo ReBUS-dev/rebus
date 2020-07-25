@@ -10,7 +10,7 @@ void read_to_archive(ofstream *archive_name, string path_file) {
     unsigned long long file_size = filesystem::file_size(path_file);
     const char *file = WorkFile::read_file_data(path_file);
 
-    *archive_name << filesystem::path(path_file).filename();
+    *archive_name << filesystem::path(path_file).filename().string();
 
     archive_name->write((char*) "\0", 1);
     archive_name->write((char*) &file_size, 8);
@@ -95,23 +95,5 @@ int WorkArchive::unpack_archiv(std::string archive_filename) {
 
 WorkArchive::WorkArchive(string file_path) {
     this->WorkArchive::file_path = move(file_path);
-}
-
-vector<string> WorkArchive::data_for_file() {
-    vector<string> data_is_file;
-
-    fstream path_file;
-    path_file.open(WorkArchive::file_path, ios::in);
-
-    if (path_file.is_open()) {
-        string path;
-
-        while (getline(path_file, path)) {
-            data_is_file.push_back(path);
-        }
-        path_file.close();
-    }
-
-    return data_is_file;
 }
 
