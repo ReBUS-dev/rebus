@@ -25,6 +25,7 @@ public:
     void create_archiv_proccess(std::vector<std::string>);
 
     void create_archive(std::vector<std::string> path_name);
+    int unpack_archiv(std::string archive_filename);
 };
 
 #endif

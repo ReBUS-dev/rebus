@@ -11,11 +11,22 @@ WorkFile *file_work;
 int main(int argc, char **argv) {
     std::string default_path;
 
-    if (argv[1] && argv[2] && argv[1] == std::string("--PD")) {
+    if (!strcmp(argv[1], "-c") && argv[2]) {
         default_path = argv[2];
     }
 
-    get_files(default_path);
+    if (!strcmp(argv[1], "-u") && argv[2]) {
+        char* archive_filename;
+        archive_filename = argv[2];
+
+        archive_work->unpack_archiv(archive_filename);
+
+        return 0;
+    }
+
+    if (!strcmp(argv[1], "-c")) {
+        get_files(default_path);
+    }
 
     return 0;
 }

@@ -17,6 +17,44 @@ void read_to_archive(ofstream *archive_name, string path_file) {
     archive_name->write(file, filesystem::file_size(path_file));
 }
 
+int unpack_proccess(ifstream *file_stream_archive) {
+    while (!file_stream_archive->eof()) {
+        string filename;
+        getline(*file_stream_archive, filename, '\0');
+
+        if (file_stream_archive->eof()) {
+            break;
+        }
+
+        unsigned long long file_size;
+        file_stream_archive->read( (char*) &file_size, 8);
+        if (file_stream_archive->eof()) {
+            cerr << "The archive is damaged, I can't find the size!\n";
+            return 1;
+        }
+
+        char* file = new char[file_size];
+        file_stream_archive->read(file, file_size);
+        if (file_stream_archive->eof()) {
+            cerr << "The archive is corrupt, I can't find the files!\n";
+            return 1;
+        }
+
+        ofstream file_stream (filename, ios::binary);
+        if (!file_stream.is_open()) {
+            cerr << "I have no rights to record!\n";
+            return 1;
+        }
+
+        file_stream.write(file, file_size);
+
+        delete[](file);
+        file_stream.close();
+    }
+
+    return 0;
+}
+
 void WorkArchive::create_archive(vector<string> path_name) {
     ofstream archive_name("archive" + FORMAT_ARCHIVE, ios::app);
     string signatura = FORMAT_ARCHIVE + "><";
@@ -36,6 +74,23 @@ void WorkArchive::create_archiv_proccess(std::vector<std::string> path) {
     }
 
     create_archive(full_data_archive);
+}
+
+int WorkArchive::unpack_archiv(std::string archive_filename) {
+    ifstream file_stream_archive (archive_filename, ios::binary);
+    char magic[6];
+
+    file_stream_archive.read(magic, 6);
+
+    if (memcmp(magic, ".rbb><", 6)) {
+        cerr << "This is not a rbb archive\n";
+        return 1;
+    }
+    else {
+        unpack_proccess(&file_stream_archive);
+    }
+
+    return 0;
 }
 
 WorkArchive::WorkArchive(string file_path) {
@@ -60,61 +115,3 @@ vector<string> WorkArchive::data_for_file() {
     return data_is_file;
 }
 
-//#include <iostream>
-//#include <fstream>
-//#include <cstring>
-//#include <string>
-//
-//using namespace std;
-//
-//int main (int argc, char* argv[]) {
-//    char* archive_filename;
-//    if (!strcmp(argv[1], "-d")) {
-//        archive_filename = argv[2];
-//    }
-//
-//    ifstream file_stream_archive (archive_filename, ios::binary);
-//    char magic[6];
-//    file_stream_archive.read(magic, 6);
-//
-//    if (memcmp(magic, ".rbb><", 6)) {
-//        cerr << "This is not a rbb archive\n";
-//        return 1;
-//    }
-//
-//    while (!file_stream_archive.eof()) {
-//        string filename;
-//        getline(file_stream_archive, filename, '\0');
-//
-//        if (file_stream_archive.eof()) {
-//            break;
-//        }
-//
-//        unsigned long long file_size;
-//        file_stream_archive.read( (char*) &file_size, 8);
-//        if (file_stream_archive.eof()) {
-//            cerr << "Кривий архів.\n";
-//            return 1;
-//        }
-//
-//        char* file = new char[file_size];
-//        file_stream_archive.read(file, file_size);
-//        if (file_stream_archive.eof()) {
-//            cerr << "Кривий архів.\n";
-//            return 1;
-//        }
-//
-//        ofstream file_stream (filename, ios::binary);
-//        if (!file_stream.is_open()) {
-//            cerr << "Не можу писати.\n";
-//            return 1;
-//        }
-//
-//        file_stream.write(file, file_size);
-//
-//        delete(file);
-//        file_stream.close();
-//    }
-//
-//    return 0;
-//}
