@@ -1,11 +1,12 @@
 #include <utility>
 #include <vector>
 #include <list>
-#include "core/header/Core.h"
+#include "RebusBackup/lib/header/WorkArchive.h"
 
 void get_files(const std::string& one_path);
 
-Core *core_object;
+WorkArchive *archive_work;
+WorkFile *file_work;
 
 int main(int argc, char **argv) {
     std::string default_path;
@@ -20,17 +21,21 @@ int main(int argc, char **argv) {
 }
 
 void get_files_for_patch(std::string path_config_backup) {
-    core_object = new Core(std::move(path_config_backup));
+    archive_work = new WorkArchive(std::move(path_config_backup));
 
-    std::vector<std::string> path = core_object->data_for_file();
+    std::vector<std::string> path = archive_work->data_for_file();
 
-    std::vector<std::string> file_in_dir = core_object->scan_dir(path[0]);
+    std::vector<std::string> file_in_dir = file_work->scan_dir(path[0]);
+
+    archive_work->create_archiv_proccess(file_in_dir);
 }
 
 void get_files_of_key_dir(const std::string& current_dir) {
-    core_object = new Core(PATH_CONF);
+    archive_work = new WorkArchive(PATH_CONF);
 
-    std::vector<std::string> file_in_dir = core_object->scan_dir(current_dir);
+    std::vector<std::string> file_in_dir = file_work->scan_dir(current_dir);
+
+    archive_work->create_archiv_proccess(file_in_dir);
 }
 
 void get_files(const std::string& one_path) {

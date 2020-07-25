@@ -9,21 +9,22 @@
 #include <list>
 #include <bitset>
 
-#include "../global_value.cpp"
+#include "../../global_value.cpp"
+#include "../../Core/lib/header/WorkFile.h"
 
 #ifndef REBUSDEVBACKUP_CORE_H
 #define REBUSDEVBACKUP_CORE_H
 
-
-class Core {
+class WorkArchive : WorkFile {
 private:
     std::string file_path;
 
 public:
-    explicit Core(std::string file_path);
-
+    explicit WorkArchive(std::string file_path);
     std::vector<std::string> data_for_file();
-    std::vector<std::string> scan_dir(const std::string& path);
+    void create_archiv_proccess(std::vector<std::string>);
+
+    void create_archive(std::vector<std::string> path_name);
 };
 
 #endif
