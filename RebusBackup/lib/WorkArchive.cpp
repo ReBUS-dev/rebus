@@ -55,8 +55,8 @@ int unpack_proccess(ifstream *file_stream_archive) {
     return 0;
 }
 
-void WorkArchive::create_archive(vector<string> path_name) {
-    ofstream archive_name("archive" + FORMAT_ARCHIVE, ios::app);
+void WorkArchive::create_archive(vector<string> path_name, string archive_name_custom) {
+    ofstream archive_name(archive_name_custom + FORMAT_ARCHIVE, ios::app);
     string signatura = FORMAT_ARCHIVE + "><";
 
     archive_name << signatura;
@@ -66,23 +66,23 @@ void WorkArchive::create_archive(vector<string> path_name) {
     }
 }
 
-void WorkArchive::create_archiv_proccess(std::vector<std::string> path) {
+void WorkArchive::create_archiv_proccess(std::vector<std::string> path, string archive_name) {
     std::vector<std::string> full_data_archive;
 
     for (auto & iterations : path) {
         full_data_archive.push_back(iterations);
     }
 
-    create_archive(full_data_archive);
+    create_archive(full_data_archive, archive_name);
 }
 
 int WorkArchive::unpack_archiv(std::string archive_filename) {
     ifstream file_stream_archive (archive_filename, ios::binary);
-    char magic[6];
+    char signatura[6];
 
-    file_stream_archive.read(magic, 6);
+    file_stream_archive.read(signatura, 6);
 
-    if (memcmp(magic, ".rbb><", 6)) {
+    if (memcmp(signatura, ".rbb><", 6)) {
         cerr << "This is not a rbb archive\n";
         return 1;
     }

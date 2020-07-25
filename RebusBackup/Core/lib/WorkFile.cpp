@@ -2,6 +2,7 @@
 // Created by Stepan Bezhuk on 25.07.2020.
 //
 
+#include <map>
 #include "header/WorkFile.h"
 
 char *WorkFile::read_file_data(std::string path_file) {
@@ -21,17 +22,15 @@ std::vector<std::string> WorkFile::scan_dir(std::vector<std::string> &path) {
         for (const auto &path_file : std::filesystem::directory_iterator(path[ iteration ])) {
             if (std::filesystem::is_directory(path_file)) {
                 path.push_back(path_file.path());
-                std::cout << path_file.path() << std::endl;
                 continue;
             }
+
             file_for_path.push_back(path_file.path());
         }
     }
 
     return file_for_path;
 }
-
-
 
 std::vector<std::string> WorkFile::working_once_dir(const std::string &path) {
     std::vector<std::string> file_for_path;
